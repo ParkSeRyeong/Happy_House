@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.UserMapper">
+
+	<select id="login" parameterType="map" resultType="memberDto">
+		select name, id, email
+		from users
+		where id = #{id} and pw = #{pw}
+	</select>
+	
+	<!-- <select id="userList" resultType="memberDto">
+		select userid, userpwd, username, email, address, date_format(joindate, '%y.%m.%d') joindate
+		from ssafy_member
+		order by joindate desc;
+	</select>
+	
+	<select id="userInfo" parameterType="String" resultType="memberdto">
+		select userid, userpwd, username, email, address, date_format(joindate, '%y.%m.%d') joindate
+		from ssafy_member
+		where userid = #{userid}
+	</select> -->
+	
+	<insert id="userRegister" parameterType="MemberDto">
+		insert into users (id, pw, name, address_sido,address_gugun,address_dong,interest_sido,interest_gugun,interest_dong, phone, email)
+		values (#{id}, #{pw}, #{name}, #{address_sido},#{address_gugun},#{address_dong}, #{interest_sido},#{interest_gugun},#{interest_dong},#{phone}, #{email})
+	</insert>
+	
+	<!-- <update id="userModify" parameterType="MemberDto">
+		update ssafy_member
+		set userpwd = #{userpwd}, email = #{email}, address = #{address}
+		where userid = #{userid}
+	</update> -->
+	
+	<!-- <delete id="userDelete" parameterType="String">
+		delete from users
+		where id = #{id}
+	</delete> -->
+	
+</mapper>

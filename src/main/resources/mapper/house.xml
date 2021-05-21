@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.HouseMapMapper">
+
+	<select id="getSido" resultType="SidoGugunCodeDto">
+		select sido_code, sido_name
+		from sidocode
+		order by sido_code;
+	</select>
+	
+	<select id="getGugunInSido" parameterType="String" resultType="SidoGugunCodeDto">
+		SELECT left(gugun_code,5) gugun_code, gugun_name
+		from guguncode
+		where left(gugun_code,2) = left(#{sido},2)
+		order by gugun_name ;
+	</select>
+	
+	<select id="getDongInGugun" parameterType="String" resultType="HouseInfoDto">
+		select distinct dong, code 
+		from houseinfo
+		where code = #{gugun}
+		order by dong;
+	</select>
+	
+	<select id="getAptInDong" parameterType="String" resultType="HouseInfoDto">
+		select no, dong, AptName, code, buildYear, jibun, lat, lng
+		from houseinfo
+		where dong = #{dong}
+		order by AptName;
+	</select>
+	
+	<select id="getDongInfo" parameterType="String" resultType="DongInfoDto">
+		select lat, lng 
+		from baseaddress
+		where dong = #{dong};
+	</select>
+	
+	<select id="getApt" parameterType="String" resultType="HouseDealDto">
+		select no, dong, AptName, dealAmount, dealYear, dealMonth, dealDay, area, floor, jibun
+		from housedeal
+		where dong = #{dong} and AptName=#{aptName}
+		order by AptName;
+	</select>
+	
+	
+</mapper>
