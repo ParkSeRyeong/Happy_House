@@ -29,6 +29,7 @@ import com.ssafy.happyhouse.model.service.HouseMapService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+//안나옴...
 @RestController
 @RequestMapping("/map")
 @CrossOrigin("*")
