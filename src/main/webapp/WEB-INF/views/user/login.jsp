@@ -183,7 +183,7 @@
    	});
    	
 		    let colorArr = [ 'table-primary', 'table-success', 'table-danger' ];
-			$(document).ready(function(){
+		    $(document).ready(function(){
 				$.get("${root}/map/sido"
 					,function(data, status){
 						$.each(data, function(index, vo) {
@@ -195,8 +195,8 @@
 			});//ready
 			$(document).ready(function(){
 				$("#sido").change(function() {
-					$.get("${root}/map/gugun"
-							,{sido:$("#sido").val()}
+					let sidoName= $("#sido").val();
+					$.get("${root}/map/gugun/"+sidoName
 							,function(data, status){
 								$("#gugun").empty();
 								$("#gugun").append('<option value="0">선택</option>');
@@ -208,8 +208,8 @@
 					);//get
 				});//change
 				$("#gugun").change(function() {
-					$.get("${root}/map/dong"
-							,{gugun:$("#gugun").val()}
+					let gugunName= $("#gugun").val();
+					$.get("${root}/map/dong/"+gugunName
 							,function(data, status){
 								$("#dong").empty();
 								$("#dong").append('<option value="0">선택</option>');
@@ -222,45 +222,44 @@
 				});//change
 			});//ready
 							
-				$(document).ready(function(){
-					$.get("${root}/map/sido"
-						,function(data, status){
-							$.each(data, function(index, vo) {
-								$("#sido2").append("<option value='"+vo.sido_code+"'>"+vo.sido_name+"</option>");
-							});//each
-						}//function
-						, "json"
+			$(document).ready(function(){
+				$.get("${root}/map/sido"
+					,function(data, status){
+						$.each(data, function(index, vo) {
+							$("#sido2").append("<option value='"+vo.sido_code+"'>"+vo.sido_name+"</option>");
+						});//each
+					}//function
+					, "json"
+				);//get
+			});//ready
+			$(document).ready(function(){
+				$("#sido2").change(function() {
+					let sidoName= $("#sido2").val();
+					$.get("${root}/map/gugun/"+sidoName
+							,function(data, status){
+								$("#gugun2").empty();
+								$("#gugun2").append('<option value="0">선택</option>');
+								$.each(data, function(index, vo) {
+									$("#gugun2").append("<option value='"+vo.gugun_code+"'>"+vo.gugun_name+"</option>");
+								});//each
+							}//function
+							, "json"
 					);//get
-				});//ready
-				$(document).ready(function(){
-					$("#sido2").change(function() {
-						$.get("${root}/map/gugun"
-								,{sido:$("#sido").val()}
-								,function(data, status){
-									$("#gugun2").empty();
-									$("#gugun2").append('<option value="0">선택</option>');
-									$.each(data, function(index, vo) {
-										$("#gugun2").append("<option value='"+vo.gugun_code+"'>"+vo.gugun_name+"</option>");
-									});//each
-								}//function
-								, "json"
-						);//get
-					});//change
-					$("#gugun2").change(function() {
-						$.get("${root}/map/dong"
-								,{gugun:$("#gugun").val()}
-								,function(data, status){
-									$("#dong2").empty();
-									$("#dong2").append('<option value="0">선택</option>');
-									$.each(data, function(index, vo) {
-										$("#dong2").append("<option value='"+vo.dong+"'>"+vo.dong+"</option>");
-									});//each
-								}//function
-								, "json"
-						);//get
-					});//change
-						
-		});//ready
+				});//change
+				$("#gugun2").change(function() {
+					let gugunName= $("#gugun2").val();
+					$.get("${root}/map/dong/"+gugunName
+							,function(data, status){
+								$("#dong2").empty();
+								$("#dong2").append('<option value="0">선택</option>');
+								$.each(data, function(index, vo) {
+									$("#dong2").append("<option value='"+vo.dong+"'>"+vo.dong+"</option>");
+								});//each
+							}//function
+							, "json"
+					);//get
+				});//change
+			});//ready
 					
 					
 					

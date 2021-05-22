@@ -1,6 +1,7 @@
 package com.ssafy.happyhouse.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class HouseMapServiceImpl implements HouseMapService {
 	}
 
 	@Override
-	public List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception {
+	public List<Map<String,String>> getGugunInSido(String sido) throws Exception {
 		return sqlSession.getMapper(HouseMapMapper.class).getGugunInSido(sido);
 	}
 

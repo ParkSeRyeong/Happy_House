@@ -30,16 +30,17 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public List<NoticeDto> noticeList(Map<String, String> map) throws Exception {
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("key", map.get("key") == null ? "" : map.get("key"));
-		param.put("word", map.get("word") == null ? "" : map.get("word"));
-		int currentPage = Integer.parseInt(map.get("pg"));
-		int sizePerPage = Integer.parseInt(map.get("spp"));
-		int start = (currentPage - 1) * sizePerPage;
-		param.put("start", start);
-		param.put("spp", sizePerPage);
-		return sqlSession.getMapper(NoticeMapper.class).noticeList(param);
+	public List<NoticeDto> noticeList() throws Exception {
+//		Map<String, Object> param = new HashMap<String, Object>();
+//		param.put("key", map.get("key") == null ? "" : map.get("key"));
+//		param.put("word", map.get("word") == null ? "" : map.get("word"));
+//		int currentPage = Integer.parseInt(map.get("pg"));
+//		int sizePerPage = Integer.parseInt(map.get("spp"));
+//		int start = (currentPage - 1) * sizePerPage;
+//		param.put("start", start);
+//		param.put("spp", sizePerPage);
+//		return sqlSession.getMapper(NoticeMapper.class).noticeList(param);
+		return sqlSession.getMapper(NoticeMapper.class).noticeList();
 	}
 
 	@Override

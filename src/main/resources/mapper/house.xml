@@ -10,17 +10,17 @@
 		order by sido_code;
 	</select>
 	
-	<select id="getGugunInSido" parameterType="String" resultType="SidoGugunCodeDto">
+	<select id="getGugunInSido" parameterType="String" resultType="map">
 		SELECT left(gugun_code,5) gugun_code, gugun_name
 		from guguncode
 		where left(gugun_code,2) = left(#{sido},2)
 		order by gugun_name ;
 	</select>
 	
-	<select id="getDongInGugun" parameterType="String" resultType="HouseInfoDto">
-		select distinct dong, code 
-		from houseinfo
-		where code = #{gugun}
+	<select id="getDongInGugun" parameterType="String" resultType="map">
+		select distinct dong
+		from baseaddress
+		where dongcode = #{gugun}
 		order by dong;
 	</select>
 	

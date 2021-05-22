@@ -9,7 +9,7 @@ import com.ssafy.util.PageNavigation;
 public interface NoticeService {
 
 	public void noticeWrite(NoticeDto noticeDto) throws Exception;
-	public List<NoticeDto> noticeList(Map<String, String> map) throws Exception;
+	public List<NoticeDto> noticeList() throws Exception;
 	public PageNavigation makePageNavigation(Map<String, String> map) throws Exception;
 
 	public NoticeDto noticeView(int no) throws Exception;

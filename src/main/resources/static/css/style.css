@@ -9199,7 +9199,7 @@ h1, h2, h3, h4, h5,
 
 .ftco-section-parallax {
   position: relative; }
-  .ftco-section-parallax .heading-section-white h2 {
+  .ftco-section-parallax .heading-section-white h2{
     font-weight: 400 !important; }
 
 .aside-stretch {
@@ -9439,7 +9439,7 @@ textarea.form-control {
     margin-top: -1px;
     background: #24A148; }
 
-.heading-section h2 {
+.heading-section h2{
   font-size: 40px;
   font-weight: 700; }
   @media (max-width: 767.98px) {
@@ -9449,9 +9449,13 @@ textarea.form-control {
 .heading-section.heading-section-white .subheading {
   color: rgba(255, 255, 255, 0.9); }
 
-.heading-section.heading-section-white h2 {
+.heading-section.heading-section-white h2{
   font-size: 40px;
   color: #fff; }
+  
+ .heading-section.heading-section-white h3{
+ font-size: 20px;
+ color: #fff; }
 
 .heading-section.heading-section-white p {
   color: rgba(255, 255, 255, 0.9); }

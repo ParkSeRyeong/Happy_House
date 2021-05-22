@@ -9,7 +9,7 @@ import com.ssafy.util.PageNavigation;
 
 public interface NoticeMapper {
 	public void noticeWrite(NoticeDto noticeDto) throws SQLException;
-	public List<NoticeDto> noticeList(Map<String, Object> param) throws SQLException;
+	public List<NoticeDto> noticeList() throws SQLException;
 	public int getTotalCount(Map<String, String> map) throws SQLException;
 
 	public NoticeDto noticeView(int no) throws SQLException;

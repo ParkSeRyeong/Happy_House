@@ -52,22 +52,22 @@ public class QnaController {
 		}
 	}
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(@RequestParam Map<String, String> map, Model model) {
-		String spp = map.get("spp");
-		map.put("spp", spp != null ? spp : "10");//sizePerPage
-		try {
-			List<NoticeDto> list = noticeService.noticeList(map);
-			PageNavigation pageNavigation = noticeService.makePageNavigation(map);
-			model.addAttribute("notices", list);
-			model.addAttribute("navigation", pageNavigation);
-			return "notice/list";
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("msg", "글 목록을 얻어오는 중 문제가 발생했습니다.");
-			return "error/error";
-		}
-	}
+//	@RequestMapping(value = "/list", method = RequestMethod.GET)
+//	public String list(@RequestParam Map<String, String> map, Model model) {
+//		String spp = map.get("spp");
+//		map.put("spp", spp != null ? spp : "10");//sizePerPage
+//		try {
+//			List<NoticeDto> list = noticeService.noticeList(map);
+//			PageNavigation pageNavigation = noticeService.makePageNavigation(map);
+//			model.addAttribute("notices", list);
+//			model.addAttribute("navigation", pageNavigation);
+//			return "notice/list";
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("msg", "글 목록을 얻어오는 중 문제가 발생했습니다.");
+//			return "error/error";
+//		}
+//	}
 	
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
 	public String modify(@RequestParam("no") int no, Model model) {

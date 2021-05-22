@@ -10,7 +10,7 @@
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate pb-0 text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>공지사항 <i class="fa fa-chevron-right"></i></span></p>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="${root }/">Home <i class="fa fa-chevron-right"></i></a></span> <span>공지사항 <i class="fa fa-chevron-right"></i></span></p>
             <h1 class="mb-3 bread">공지사항</h1>
           </div>
         </div>
@@ -23,10 +23,11 @@
           <div class="col-md-12 text-center heading-section heading-section-white ftco-animate">
           	<span class="subheading">Notices</span>
             <h2 class="mb-3">주요 공지사항을 한번에 확인하세요</h2>
+            <a href="${root }/notice/write"><h3><i class="fas fa-plus-circle"></i> 이곳을 클릭해서 공지사항을 등록하세요</h3></a>
           </div>
         </div>
     		<div class="row">
-    		<c:forEach var="notice" items="${notices }">
+    		<c:forEach var="notices" items="${notices}">
     			<div class="col-md-3 d-flex align-self-stretch ftco-animate">
             <div class="media block-6 services services-2">
               <div class="media-body py-md-4 text-center">
@@ -74,6 +75,16 @@
     		</div>
     	</div>
     </section>
+    
+<!--     <script>
+    $(document).ready(function(){
+    	$.ajax({
+    		type:"get",
+    		url:"${root}/notice/noticeList",
+    		success:alert('df')
+    	});
+    });
+    </script> -->
 <!-- 
     <section class="ftco-section">
     </section>

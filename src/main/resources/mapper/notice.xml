@@ -5,12 +5,12 @@
 <mapper namespace="com.ssafy.happyhouse.model.mapper.NoticeMapper">
 
 	
-	<select id="noticeList" resultType="com.ssafy.happyhouse.model.dto.NoticeDto">
+	<select id="noticeList" resultType="NoticeDto">
 		select no,title,views,date,content
 		from notices
 	</select>
 	
-	<select id="noticeView" parameterType="String" resultType="com.ssafy.happyhouse.model.dto.NoticeDto">
+	<select id="noticeView" parameterType="String" resultType="NoticeDto">
 		select no,title,views,date,content
 		from notices
 		where no = #{no}

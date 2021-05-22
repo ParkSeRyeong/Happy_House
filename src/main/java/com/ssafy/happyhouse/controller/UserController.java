@@ -2,76 +2,96 @@ package com.ssafy.happyhouse.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ssafy.happyhouse.model.dto.MemberDto;
+import com.ssafy.happyhouse.model.service.JwtService;
 import com.ssafy.happyhouse.model.service.UserService;
 
-@Controller
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
 @RequestMapping("/user")
+@Api("User Controller API V1")
+@CrossOrigin("*")
 public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Autowired
 	private UserService userService;
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login() {
-		return "user/login";
+
+	@Autowired
+	private JwtService jwtService;
+
+	@ApiOperation(value = "로그인 화면으로 이동")
+	@GetMapping("/login")
+	public ModelAndView login() {
+		ModelAndView mav = new ModelAndView();
+        mav.setViewName("user/login");
+        return mav;
 	}
-	
-	@RequestMapping(value = "/regist", method = RequestMethod.POST)
-	public String login(MemberDto memberDto, Model model, HttpSession session, HttpServletResponse response) {
+
+	@ApiOperation(value = "유저 로그인.", response = MemberDto.class)
+	@PostMapping("/login")
+	public ResponseEntity<MemberDto> login(@RequestBody Map<String, String> loginInfo, HttpServletResponse response) {
+		logger.debug("login 정보 - " + loginInfo);
 		try {
-			System.out.println(memberDto.getAddress_dong());
-			userService.userRegister(memberDto);
-			
+			MemberDto user = userService.login(loginInfo);
+
+			// 로그인에 성공했다면 토큰을 만듭시당.
+			String token = jwtService.create(user);
+
+			// 토큰 정보는 request의 헤더로 보내자
+			response.setHeader("jwt-auth-token", token);
+
+			return new ResponseEntity<MemberDto>(user, HttpStatus.OK);
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("msg", "회원가입 중 문제가 발생했습니다.");
-			return "error/error";
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
-		return "redirect:/";
 	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam Map<String, String> map, Model model, HttpSession session, HttpServletResponse response) {
+
+	@ApiOperation(value = "회원가입", response = MemberDto.class)
+	@PostMapping("/regist")
+	public ResponseEntity<MemberDto> register(@RequestBody MemberDto memberDto) {
 		try {
-			MemberDto memberDto = userService.login(map);
-			if(memberDto != null) {
-				session.setAttribute("userinfo", memberDto);
-				
+			logger.debug("회원가입 : " + memberDto);
+			int n = userService.userRegister(memberDto);
+			
+			if (n > 0) {
+				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);
 			} else {
-				model.addAttribute("msg", "아이디 또는 비밀번호 확인 후 로그인해 주세요.");
+				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.NO_CONTENT);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("msg", "로그인 중 문제가 발생했습니다.");
-			return "error/error";
+			return new ResponseEntity<MemberDto>(memberDto, HttpStatus.NO_CONTENT);
 		}
-		return "redirect:/";
 	}
-	
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
+
+	@ApiOperation(value = "로그아웃")
+	@GetMapping("/logout")
+	public ResponseEntity<String> logout(HttpSession session) {
+		logger.debug("로그아웃");
+		// 로그아웃 기능 구현...jwt로...
+		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
-	
-//	@RequestMapping(value = "/list", method = RequestMethod.GET)
-//	public String list() {
-//		return "user/list";
-//	}
+
 }

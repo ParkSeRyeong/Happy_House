@@ -92,8 +92,7 @@
 	$(document).ready(function(){
 		$("#sido").change(function() {
 			let sidoName= $("#sido").val();
-			$.get("${root}/map/gugun"
-					+sidoName
+			$.get("${root}/map/gugun/"+sidoName
 					,function(data, status){
 						$("#gugun").empty();
 						$("#gugun").append('<option value="0">선택</option>');
@@ -105,8 +104,8 @@
 			);//get
 		});//change
 		$("#gugun").change(function() {
-			$.get("${root}/map/dong"
-					,{gugun:$("#gugun").val()}
+			let gugunName= $("#gugun").val();
+			$.get("${root}/map/dong/"+gugunName
 					,function(data, status){
 						$("#dong").empty();
 						$("#dong").append('<option value="0">선택</option>');
@@ -118,38 +117,34 @@
 			);//get
 		});//change
 		$("#dong").change(function() {
-			$.get("${root}/map/donginfo",
-					{dong : $("#dong").val()
-					},function(	data,status) {
+			let dongName= $("#dong").val();
+			$.get("${root}/map/donginfo/"+dongName
+					,function(data,status) {
 						map.setCenter(new google.maps.LatLng(data.lat,data.lng));
 						map.setZoom(15);
 					}//function
 					,"json");//get
-			$.get("${root}/map/apt"
-					,{dong:$("#dong").val()}
+			$.get("${root}/map/apt/"+dongName
 					,function(data, status){
 						$("#apart-list").empty();
-						
 						clearMarker();
-						
 						$.each(data, function(index, vo) {
 							let str = "<div class='media margin-clear'>"
 							+ "<div class='media-body'>"
-							+ "<h4>" + "<a href='${root}/map/dealInfo?dong=" + $("#dong").val() + "&aptName=" + vo.aptName + "'>" + vo.aptName + "</a>" + "</h4>"
+							+ "<h4>" + "<a href='${root}/map/dealInfo/dong=" +dongName + "/aptName=" + vo.aptName + "'>" + vo.aptName + "</a>" + "</h4>"
 							+ "<h6 class='media-heading' id='deal'>지번 : " + vo.jibun +"</h6>"
 							+ "<p class='small margin-clear'>"
 							+ "<i class='fa fa-calendar pr-10'></i>" + vo.buildYear
 							+ "</p>" + "</div>" + "</div>" + "<hr>";
 							
 							$("#apart-list").append(str);
-							
-							addMarker(vo.lat, vo.lng, vo.aptName);
+							addMarker(vo.lat,vo.lng,vo.aptName);
 							changeCenter(data[0].lat, data[0].lng);
-						});//each
+							});//each
+						
 						//geocode(data);
 					}//function
-					, "json"
-			);//get
+					, "json");//get
 		});//change
 	});//ready
 </script>

@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,30 +28,38 @@ import com.ssafy.happyhouse.model.dto.HouseInfoDto;
 import com.ssafy.happyhouse.model.dto.SidoGugunCodeDto;
 import com.ssafy.happyhouse.model.service.HouseMapService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 //안나옴
 @RestController
 @RequestMapping("/map")
+@Api("House Controller API V1")
 @CrossOrigin("*")
 public class HouseMapController {
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+	@Autowired
 	HouseMapService houseMapService;
-	
+
 	@Autowired
 	public HouseMapController(HouseMapService houseMapService) {
 		super();
 		this.houseMapService = houseMapService;
 	}
-	
+
+	@ApiOperation(value = "주택 거래가 검색 화면으로 이동")
 	@GetMapping(value = "/housemap")
 	public ModelAndView housemap() throws IOException {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("house/housemap");
 		return mav;
 	}
-	
+
+	@ApiOperation(value = "시도 리스트 반환")
 	@GetMapping(value = "/sido")
 	public ResponseEntity<List<SidoGugunCodeDto>> sido(Model model) throws Exception {
 		List<SidoGugunCodeDto> sido = houseMapService.getSido();
@@ -61,130 +71,73 @@ public class HouseMapController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 	}
-	
-	@GetMapping(value = "/gugun")
-	public ResponseEntity<List<SidoGugunCodeDto>> gugun(@PathVariable("sido") String sido) throws Exception {
-//		String sido = request.getParameter("sido");
-//		PrintWriter out = response.getWriter();
-//		List<SidoGugunCodeDto> list = null;
-//		JSONArray arr = new JSONArray();
-		//sido = sido.substring(0, 2);
-		System.out.println("HouseController_Rest : gugun / " + sido);
+
+	@ApiOperation(value = "시도 선택 후 구군 리스트 반환")
+	@GetMapping(value = "/gugun/{sido}")
+	public ResponseEntity<List<Map<String, String>>> gugun(@PathVariable("sido") String sido) throws Exception {
+		logger.debug("시도 : " + sido);
 		try {
-			List<SidoGugunCodeDto> gugun = houseMapService.getGugunInSido(sido);
-			return new ResponseEntity<List<SidoGugunCodeDto>>(gugun, HttpStatus.OK);
+			List<Map<String, String>> gugun = houseMapService.getGugunInSido(sido);
+			return new ResponseEntity<List<Map<String, String>>>(gugun, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		} 
+		}
 	}
-	
+
+	@ApiOperation(value = "구군 선택 후 동 리스트 반환")
 	@GetMapping(value = "/dong/{gugun}")
-	public  ResponseEntity<List<HouseInfoDto>> dong(@PathVariable("gugun") String gugun) throws Exception {
-//		String gugun = request.getParameter("gugun");
-//		PrintWriter out = response.getWriter();
-//		List<HouseInfoDto> list = null;
-//		JSONArray arr = new JSONArray();
-		List<HouseInfoDto> dong = houseMapService.getDongInGugun(gugun);
+	public ResponseEntity<List<HouseInfoDto>> dong(@PathVariable("gugun") String gugun) throws Exception {
+		logger.debug("구군 : " + gugun);
 		try {
+			List<HouseInfoDto> dong = houseMapService.getDongInGugun(gugun);
 			return new ResponseEntity<List<HouseInfoDto>>(dong, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 	}
-	
-	@GetMapping(value = "/apt")
-	public  ResponseEntity<List<HouseInfoDto>> apt(@PathVariable("dong") String dong) throws Exception {
-//		String dong = request.getParameter("dong");
-//		PrintWriter out = response.getWriter();
-//		List<HouseInfoDto> list = null;
-//		JSONArray arr = new JSONArray();
-		List<HouseInfoDto> apt = houseMapService.getAptInDong(dong);
+
+	@ApiOperation(value = "선택한 동 지도에서 확대")
+	@GetMapping(value = "/donginfo/{dong}")
+	public ResponseEntity<DongInfoDto> getDongInfo(@PathVariable("dong") String dong) throws IOException {
+		logger.debug("동 : " + dong);
+		DongInfoDto donginfo = houseMapService.getDongInfo(dong);
 		try {
-//			for(HouseInfoDto dto : list) {
-//				JSONObject obj = new JSONObject();
-//				obj.put("no", dto.getNo());
-//				obj.put("dong", dto.getDong());
-//				obj.put("aptName", dto.getAptName());
-//				obj.put("code", dto.getCode());
-//				obj.put("buildYear", dto.getBuildYear());
-//				obj.put("jibun", dto.getJibun());
-//				obj.put("lat", dto.getLat());
-//				obj.put("lng", dto.getLng());
-//				arr.add(obj);
-//			}
+			return new ResponseEntity<DongInfoDto>(donginfo, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		} 
+		
+	}
+	
+	@ApiOperation(value = "시군구동 선택 후 해당 아파트 리스트 반환")
+	@GetMapping(value = "/apt/{dong}")
+	public ResponseEntity<List<HouseInfoDto>> apt(@PathVariable("dong") String dong) throws Exception {
+		logger.debug("동 : " + dong);
+		List<HouseInfoDto> apt = houseMapService.getAptInDong(dong);
+		logger.debug("아파트 리스트:" + " " + apt);
+		try {
 			return new ResponseEntity<List<HouseInfoDto>>(apt, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+	}
+
+
+	@ApiOperation(value = "시군구동 선택 후 해당 아파트 리스트 화면에 표시")
+	@GetMapping(value = "/dealInfo/{dong}/{aptName}")
+	public ResponseEntity<List<HouseDealDto>> getDealInfo(@PathVariable("dong") String dong, @PathVariable("aptName") String aptName) throws Exception {
+		System.out.println(dong+" "+aptName);
+		List<HouseDealDto> aptList = houseMapService.getApt(dong,aptName);
+		try {
+			return new ResponseEntity<List<HouseDealDto>>(aptList, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		} 
 	}
-	
-//	@RequestMapping(value = "/donginfo", method = RequestMethod.GET)
-//	public String getDongInfo(Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
-//		String dong = request.getParameter("dong");
-//		PrintWriter out = response.getWriter();
-//		JSONObject obj = null;
-//		try {
-//			DongInfoDto dto = new DongInfoDto();
-//			dto = houseMapService.getDongInfo(dong); 
-//				obj = new JSONObject();
-//				obj.put("lat", dto.getLat());
-//				obj.put("lng", dto.getLng());
-//		} catch (Exception e) {
-//			obj = new JSONObject();
-//			obj.put("message_code", "-1");
-//			e.printStackTrace();
-//		} finally {
-//			out.print(obj.toString());
-//			out.close();
-//		}
-//		
-//		return "house/housemap";
-//	}
-//	
-//	@RequestMapping(value = "/dealInfo", method = RequestMethod.GET)
-//	public String getDealInfo(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-//		String dong = request.getParameter("dong");
-//		String aptName = request.getParameter("aptName");
-//		PrintWriter out = response.getWriter();
-//		List<HouseDealDto> list = null;
-//		JSONArray arr = new JSONArray();
-//		
-//		System.out.println(dong);
-//		System.out.println(aptName);
-//		
-//		try {
-//			list = houseMapService.getApt(dong, aptName);
-//			for(HouseDealDto dto : list) {
-//				JSONObject obj = new JSONObject();
-//				obj.put("no", dto.getNo());
-//				obj.put("dong", dto.getDong());
-//				obj.put("aptName", dto.getAptName());
-//				obj.put("dealAmount", dto.getDealAmount());
-//				obj.put("dealYear", dto.getDealYear());
-//				obj.put("dealMonth", dto.getDealMonth());
-//				obj.put("dealDay", dto.getDealDay());
-//				obj.put("area", dto.getArea());
-//				obj.put("floor", dto.getFloor());
-//				obj.put("jibun", dto.getJibun());
-//				arr.add(obj);
-//			}
-//
-//		} catch (Exception e) {
-//			arr = new JSONArray();
-//			JSONObject obj = new JSONObject();
-//			obj.put("message_code", "-1");
-//			arr.add(obj);
-//			e.printStackTrace();
-//		} finally {
-//			out.print(arr.toString());
-//			out.close();
-//		}
-//		System.out.println("aa");
-//		return "index";
-//	}
-	
 
 }
