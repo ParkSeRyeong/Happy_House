@@ -44,7 +44,7 @@
 		from housedeal d
 		left join houseinfo i
 		using(AptName)
-		where d.dong = #{dong} and AptName=#{AptName}
+		where d.dong = #{dong} and AptName=#{aptName}
 		order by AptName;
 	</select>
 	
