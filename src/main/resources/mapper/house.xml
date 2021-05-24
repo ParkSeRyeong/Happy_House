@@ -25,7 +25,7 @@
 	</select>
 	
 	<select id="getAptInDong" parameterType="String" resultType="HouseInfoDto">
-		select no, dong, AptName, code, buildYear, jibun, lat, lng
+		select dong, AptName, code, buildYear, lat, lng
 		from houseinfo
 		where dong = #{dong}
 		order by AptName;
