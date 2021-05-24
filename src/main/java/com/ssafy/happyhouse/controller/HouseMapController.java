@@ -90,7 +90,7 @@ public class HouseMapController {
 		}
 	}
 
-	@ApiOperation(value = "선택한 동 지도에서 확대")
+	@ApiOperation(value = "동까지 선택 후,동 정보 반환")
 	@GetMapping(value = "/donginfo/{dong}")
 	public ResponseEntity<DongInfoDto> getDongInfo(@PathVariable("dong") String dong) throws IOException {
 		logger.debug("동 : " + dong);
@@ -106,9 +106,9 @@ public class HouseMapController {
 	
 	@ApiOperation(value = "시군구동 선택 후 해당 아파트 리스트 반환")
 	@GetMapping(value = "/apt/{dong}")
-	public ResponseEntity<List<HouseDto>> apt(@PathVariable("dong") String dong) throws Exception {
+	public ResponseEntity<List<HouseDto>> getApt(@PathVariable("dong") String dong) throws Exception {
 		logger.debug("동 : " + dong);
-		List<HouseDto> apt = houseMapService.getAptInDong(dong);
+		List<HouseDto> apt = houseMapService.getApt(dong);
 		logger.debug("아파트 리스트:" + " " + apt);
 		try {
 			return new ResponseEntity<List<HouseDto>>(apt, HttpStatus.OK);
@@ -119,11 +119,11 @@ public class HouseMapController {
 	}
 
 
-	@ApiOperation(value = "시군구동 선택 후 해당 아파트 리스트 화면에 표시")
+	@ApiOperation(value = "선택한 아파트 상세정보 반환")
 	@GetMapping(value = "/dealInfo/{dong}/{aptName}")
-	public ResponseEntity<List<HouseDto>> getDealInfo(@PathVariable("dong") String dong, @PathVariable("aptName") String aptName) throws Exception {
+	public ResponseEntity<List<HouseDto>> getAptDetail(@PathVariable("dong") String dong, @PathVariable("aptName") String aptName) throws Exception {
 		System.out.println(dong+" "+aptName);
-		List<HouseDto> aptList = houseMapService.getApt(dong,aptName);
+		List<HouseDto> aptList = houseMapService.getAptDetail(dong,aptName);
 		try {
 			return new ResponseEntity<List<HouseDto>>(aptList, HttpStatus.OK);
 		} catch (Exception e) {
