@@ -8,7 +8,7 @@ import com.ssafy.happyhouse.model.dto.NoticeDto;
 import com.ssafy.util.PageNavigation;
 
 public interface NoticeMapper {
-	public void noticeWrite(NoticeDto noticeDto) throws SQLException;
+	public boolean noticeWrite(NoticeDto noticeDto) throws SQLException;
 	public List<NoticeDto> noticeList() throws SQLException;
 	public int getTotalCount(Map<String, String> map) throws SQLException;
 

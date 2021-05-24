@@ -1,117 +1,97 @@
 package com.ssafy.happyhouse.controller;
 
-import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ssafy.happyhouse.model.dto.MemberDto;
-import com.ssafy.happyhouse.model.dto.NoticeDto;
-import com.ssafy.happyhouse.model.service.NoticeService;
-import com.ssafy.util.PageNavigation;
+import com.ssafy.happyhouse.model.service.JwtService;
+import com.ssafy.happyhouse.model.service.UserService;
 
-@Controller
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
 @RequestMapping("/qna")
+@Api("QnA Controller API V1")
+@CrossOrigin("*")
 public class QnaController {
 
-	private static final Logger logger = LoggerFactory.getLogger(QnaController.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 	@Autowired
-	private NoticeService noticeService;
-	
-	@RequestMapping(value = "/faq", method = RequestMethod.GET)
-	public String write() {
-		return "qna/faq";
+	private UserService userService;
+
+	@Autowired
+	private JwtService jwtService;
+
+	@ApiOperation(value = "로그인 화면으로 이동")
+	@GetMapping("/login")
+	public ModelAndView login() {
+		ModelAndView mav = new ModelAndView();
+        mav.setViewName("user/login");
+        return mav;
 	}
-	
-	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(NoticeDto noticeDto, Model model, HttpSession session) {
-		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
-		if(memberDto != null) {
-			//noticeDto.setWriter(memberDto.getId());
-			try {
-				noticeService.noticeWrite(noticeDto);
-				return "notice/writesuccess";
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("msg", "글 작성 중 문제가 발생했습니다.");
-				return "error/error";
-			}
-		} else {
-			model.addAttribute("msg", "로그인 후 사용 가능한 페이지입니다.");
-			return "error/error";
-		}
-	}
-	
-//	@RequestMapping(value = "/list", method = RequestMethod.GET)
-//	public String list(@RequestParam Map<String, String> map, Model model) {
-//		String spp = map.get("spp");
-//		map.put("spp", spp != null ? spp : "10");//sizePerPage
-//		try {
-//			List<NoticeDto> list = noticeService.noticeList(map);
-//			PageNavigation pageNavigation = noticeService.makePageNavigation(map);
-//			model.addAttribute("notices", list);
-//			model.addAttribute("navigation", pageNavigation);
-//			return "notice/list";
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			model.addAttribute("msg", "글 목록을 얻어오는 중 문제가 발생했습니다.");
-//			return "error/error";
-//		}
-//	}
-	
-	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public String modify(@RequestParam("no") int no, Model model) {
+
+	@ApiOperation(value = "유저 로그인.", response = MemberDto.class)
+	@PostMapping("/login")
+	public ResponseEntity<MemberDto> login(@RequestBody Map<String, String> loginInfo, HttpServletResponse response) {
+		logger.debug("login 정보 - " + loginInfo);
 		try {
-			NoticeDto noticeDto = noticeService.noticeView(no);
-			model.addAttribute("notice", noticeDto);
-			return "notice/modify";
+			MemberDto user = userService.login(loginInfo);
+
+			// 로그인에 성공했다면 토큰을 만듭시당.
+			String token = jwtService.create(user);
+
+			// 토큰 정보는 request의 헤더로 보내자
+			response.setHeader("jwt-auth-token", token);
+
+			return new ResponseEntity<MemberDto>(user, HttpStatus.OK);
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("msg", "글 수정 처리 중 문제가 발생했습니다.");
-			return "error/error";
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 	}
-	
-	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(NoticeDto noticeDto, Model model, HttpSession session) {
-		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
-		if(memberDto != null) {
-			//noticeDto.setWriter(memberDto.getId());
-			try {
-				noticeService.noticeModify(noticeDto);
-				return "notice/writesuccess";
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("msg", "글 수정 중 문제가 발생했습니다.");
-				return "error/error";
-			}
-		} else {
-			model.addAttribute("msg", "로그인 후 사용 가능한 페이지입니다.");
-			return "error/error";
-		}
-	}
-	
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String delete(@RequestParam("no") int no, Model model) {
+
+	@ApiOperation(value = "회원가입", response = MemberDto.class)
+	@PostMapping("/regist")
+	public ResponseEntity<MemberDto> register(@RequestBody MemberDto memberDto) {
 		try {
-			noticeService.noticeDelete(no);
-			return "redirect:list?pg=1&key=&word=";
+			logger.debug("회원가입 : " + memberDto);
+			int n = userService.userRegister(memberDto);
+			
+			if (n > 0) {
+				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.NO_CONTENT);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("msg", "글 삭제 처리 중 문제가 발생했습니다.");
-			return "error/error";
+			return new ResponseEntity<MemberDto>(memberDto, HttpStatus.NO_CONTENT);
 		}
 	}
-	
-	
+
+	@ApiOperation(value = "로그아웃")
+	@GetMapping("/logout")
+	public ResponseEntity<String> logout(HttpSession session) {
+		logger.debug("로그아웃");
+		// 로그아웃 기능 구현...jwt로...
+		return new ResponseEntity<String>("ok", HttpStatus.OK);
+	}
+
 }
