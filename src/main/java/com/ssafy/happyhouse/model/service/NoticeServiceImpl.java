@@ -22,11 +22,11 @@ public class NoticeServiceImpl implements NoticeService {
 	private SqlSession sqlSession;
 
 	@Override
-	public void noticeWrite(NoticeDto noticeDto) throws Exception {
+	public boolean noticeWrite(NoticeDto noticeDto) throws Exception {
 //		if (noticeDto.getWriter() == null || noticeDto.getTitle() == null || noticeDto.getContent() == null) {
 //			throw new Exception();
 //		}
-		sqlSession.getMapper(NoticeMapper.class).noticeWrite(noticeDto);
+		return sqlSession.getMapper(NoticeMapper.class).noticeWrite(noticeDto);
 	}
 
 	@Override

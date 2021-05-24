@@ -21,7 +21,7 @@
         <div class="row block-9 justify-content-center mb-5">
           <div class="col-md-8 mb-md-5">
           	<h2 class="text-center">공지사항을 등록해주세요 <br>관리자 계정만 등록할 수 있습니다</h2>
-            <form action="#" class="bg-light p-5 contact-form">
+            <form action="" class="bg-light p-5 contact-form" method="post">
               <div class="form-group">
                 <input type="text" id="title" name="title" class="form-control" placeholder="제목">
               </div>
@@ -29,7 +29,7 @@
                 <textarea id="content" name="content"  cols="30" rows="20" class="form-control" placeholder="공지사항 내용"></textarea>
               </div>
               <div class="form-group">
-                <button type="button" id="registerBtn" class="btn btn-primary py-3 px-5">공지사항 등록</button>
+                <input type="submit" value="공지사항 등록" id="registerBtn" class="btn btn-primary py-3 px-5">
               </div>
             </form>
           
@@ -38,22 +38,22 @@
         
     </section>	
     
-    <script src="../js/app.js"></script>
      <script>
        
        $("#registerBtn").click(function() {
-    	   alert('dfdf');
    		if($("#title").val() == "") {
    			alert("제목을 입력해주세요");
    			return;
    		} else if($("#content").val() == "") {
    			alert("내용을 입력해주세요");
    			return;
-   		} /* else {
-   			$(".sign-up-form").attr("action", "${root}/user/regist").submit();
-   		} */
+   		} else {
+   			$(".contact-form").attr("action", "${root}/notice/regist").submit();
+   		} 
    	});
+   	
+   	
        
-     <script>
+     </script>
 
 <%@ include file="/WEB-INF/views/include/footer.jsp" %> 
