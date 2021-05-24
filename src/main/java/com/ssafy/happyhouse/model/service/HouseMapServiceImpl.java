@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.happyhouse.model.dto.DongInfoDto;
-import com.ssafy.happyhouse.model.dto.HouseDealDto;
-import com.ssafy.happyhouse.model.dto.HouseInfoDto;
+import com.ssafy.happyhouse.model.dto.HouseDto;
 import com.ssafy.happyhouse.model.dto.SidoGugunCodeDto;
 import com.ssafy.happyhouse.model.mapper.HouseMapMapper;
-
 
 @Service
 public class HouseMapServiceImpl implements HouseMapService {
@@ -31,17 +29,17 @@ public class HouseMapServiceImpl implements HouseMapService {
 	}
 
 	@Override
-	public List<HouseInfoDto> getDongInGugun(String gugun) throws Exception {
+	public List<HouseDto> getDongInGugun(String gugun) throws Exception {
 		return sqlSession.getMapper(HouseMapMapper.class).getDongInGugun(gugun);
 	}
 
 	@Override
-	public List<HouseInfoDto> getAptInDong(String dong) throws Exception {
+	public List<HouseDto> getAptInDong(String dong) throws Exception {
 		return sqlSession.getMapper(HouseMapMapper.class).getAptInDong(dong);
 	}
 	
 	@Override
-	public List<HouseDealDto> getApt(String dong, String aptName) throws Exception{
+	public List<HouseDto> getApt(String dong, String aptName) throws Exception{
 		return sqlSession.getMapper(HouseMapMapper.class).getApt(dong, aptName);
 	}
 

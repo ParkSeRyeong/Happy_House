@@ -24,10 +24,12 @@
 		order by dong;
 	</select>
 	
-	<select id="getAptInDong" parameterType="String" resultType="HouseInfoDto">
-		select dong, AptName, code, buildYear, lat, lng
-		from houseinfo
-		where dong = #{dong}
+	<select id="getAptInDong" parameterType="String" resultType="HouseDto">
+		select d.dong, AptName, d.code, d.buildYear, lat, lng
+		from housedeal d
+		left join houseinfo i
+		using(AptName)
+		where d.dong=#{dong}
 		order by AptName;
 	</select>
 	
@@ -37,10 +39,12 @@
 		where dong = #{dong};
 	</select>
 	
-	<select id="getApt" parameterType="String" resultType="HouseDealDto">
-		select no, dong, AptName, dealAmount, dealYear, dealMonth, dealDay, area, floor, jibun
-		from housedeal
-		where dong = #{dong} and AptName=#{aptName}
+	<select id="getApt" parameterType="String" resultType="HouseDto">
+		select d.no, d.dong, AptName, dealAmount, dealYear, dealMonth, dealDay, area, floor, d.jibun
+		from housedeal d
+		left join houseinfo i
+		using(AptName)
+		where d.dong = #{dong} and AptName=#{AptName}
 		order by AptName;
 	</select>
 	

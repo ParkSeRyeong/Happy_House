@@ -1,12 +1,8 @@
 package com.ssafy.happyhouse.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,20 +14,16 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssafy.happyhouse.model.dto.DongInfoDto;
-import com.ssafy.happyhouse.model.dto.HouseDealDto;
-import com.ssafy.happyhouse.model.dto.HouseInfoDto;
+import com.ssafy.happyhouse.model.dto.HouseDto;
 import com.ssafy.happyhouse.model.dto.SidoGugunCodeDto;
 import com.ssafy.happyhouse.model.service.HouseMapService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 //안나옴
 @RestController
@@ -87,11 +79,11 @@ public class HouseMapController {
 
 	@ApiOperation(value = "구군 선택 후 동 리스트 반환")
 	@GetMapping(value = "/dong/{gugun}")
-	public ResponseEntity<List<HouseInfoDto>> dong(@PathVariable("gugun") String gugun) throws Exception {
+	public ResponseEntity<List<HouseDto>> dong(@PathVariable("gugun") String gugun) throws Exception {
 		logger.debug("구군 : " + gugun);
 		try {
-			List<HouseInfoDto> dong = houseMapService.getDongInGugun(gugun);
-			return new ResponseEntity<List<HouseInfoDto>>(dong, HttpStatus.OK);
+			List<HouseDto> dong = houseMapService.getDongInGugun(gugun);
+			return new ResponseEntity<List<HouseDto>>(dong, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -114,12 +106,12 @@ public class HouseMapController {
 	
 	@ApiOperation(value = "시군구동 선택 후 해당 아파트 리스트 반환")
 	@GetMapping(value = "/apt/{dong}")
-	public ResponseEntity<List<HouseInfoDto>> apt(@PathVariable("dong") String dong) throws Exception {
+	public ResponseEntity<List<HouseDto>> apt(@PathVariable("dong") String dong) throws Exception {
 		logger.debug("동 : " + dong);
-		List<HouseInfoDto> apt = houseMapService.getAptInDong(dong);
+		List<HouseDto> apt = houseMapService.getAptInDong(dong);
 		logger.debug("아파트 리스트:" + " " + apt);
 		try {
-			return new ResponseEntity<List<HouseInfoDto>>(apt, HttpStatus.OK);
+			return new ResponseEntity<List<HouseDto>>(apt, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -129,11 +121,11 @@ public class HouseMapController {
 
 	@ApiOperation(value = "시군구동 선택 후 해당 아파트 리스트 화면에 표시")
 	@GetMapping(value = "/dealInfo/{dong}/{aptName}")
-	public ResponseEntity<List<HouseDealDto>> getDealInfo(@PathVariable("dong") String dong, @PathVariable("aptName") String aptName) throws Exception {
+	public ResponseEntity<List<HouseDto>> getDealInfo(@PathVariable("dong") String dong, @PathVariable("aptName") String aptName) throws Exception {
 		System.out.println(dong+" "+aptName);
-		List<HouseDealDto> aptList = houseMapService.getApt(dong,aptName);
+		List<HouseDto> aptList = houseMapService.getApt(dong,aptName);
 		try {
-			return new ResponseEntity<List<HouseDealDto>>(aptList, HttpStatus.OK);
+			return new ResponseEntity<List<HouseDto>>(aptList, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
