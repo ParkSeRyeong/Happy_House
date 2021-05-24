@@ -1,6 +1,7 @@
 package com.ssafy.happyhouse.model.dto;
 
-public class HouseDealDto {
+public class HouseDto {
+
 	private String no;
 	private String dong;
 	private String aptName;
@@ -13,7 +14,33 @@ public class HouseDealDto {
 	private float area;
 	private String floor;
 	private String jibun;
-	
+	private String lat;
+	private String lng;
+	private String img;
+	public HouseDto() {
+		super();
+		
+	}
+	public HouseDto(String no, String dong, String aptName, String code, String dealAmount, String buildYear,
+			String dealYear, String dealMonth, String dealDay, float area, String floor, String jibun, String lat,
+			String lng, String img) {
+		super();
+		this.no = no;
+		this.dong = dong;
+		this.aptName = aptName;
+		this.code = code;
+		this.dealAmount = dealAmount;
+		this.buildYear = buildYear;
+		this.dealYear = dealYear;
+		this.dealMonth = dealMonth;
+		this.dealDay = dealDay;
+		this.area = area;
+		this.floor = floor;
+		this.jibun = jibun;
+		this.lat = lat;
+		this.lng = lng;
+		this.img = img;
+	}
 	public String getNo() {
 		return no;
 	}
@@ -85,6 +112,24 @@ public class HouseDealDto {
 	}
 	public void setJibun(String jibun) {
 		this.jibun = jibun;
+	}
+	public String getLat() {
+		return lat;
+	}
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
+	public String getLng() {
+		return lng;
+	}
+	public void setLng(String lng) {
+		this.lng = lng;
+	}
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
 	}
 	
 	
