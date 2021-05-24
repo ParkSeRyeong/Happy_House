@@ -34,13 +34,13 @@ public class HouseMapServiceImpl implements HouseMapService {
 	}
 
 	@Override
-	public List<HouseDto> getAptInDong(String dong) throws Exception {
-		return sqlSession.getMapper(HouseMapMapper.class).getAptInDong(dong);
+	public List<HouseDto> getApt(String dong) throws Exception {
+		return sqlSession.getMapper(HouseMapMapper.class).getApt(dong);
 	}
 	
 	@Override
-	public List<HouseDto> getApt(String dong, String aptName) throws Exception{
-		return sqlSession.getMapper(HouseMapMapper.class).getApt(dong, aptName);
+	public List<HouseDto> getAptDetail(String dong, String aptName) throws Exception{
+		return sqlSession.getMapper(HouseMapMapper.class).getAptDetail(dong, aptName);
 	}
 
 	@Override
