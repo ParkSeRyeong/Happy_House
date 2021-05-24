@@ -24,7 +24,7 @@
 		order by dong;
 	</select>
 	
-	<select id="getAptInDong" parameterType="String" resultType="HouseDto">
+	<select id="getApt" parameterType="String" resultType="HouseDto">
 		select d.dong, AptName, d.code, d.buildYear, lat, lng
 		from housedeal d
 		left join houseinfo i
@@ -39,8 +39,8 @@
 		where dong = #{dong};
 	</select>
 	
-	<select id="getApt" parameterType="String" resultType="HouseDto">
-		select d.no, d.dong, AptName, dealAmount, dealYear, dealMonth, dealDay, area, floor, d.jibun
+	<select id="getAptDetail" parameterType="String" resultType="HouseDto">
+		select d.no, d.dong, AptName, dealAmount, dealYear, dealMonth, dealDay, area, floor, d.jibun,lat,lng
 		from housedeal d
 		left join houseinfo i
 		using(AptName)
