@@ -5,39 +5,38 @@
 <mapper namespace="com.ssafy.happyhouse.model.mapper.BoardMapper">
 
 	<!-- 게시글 전체 조회 -->
-	<select id="selectBoard" resultType="BoardDto">
+	<select id="list" resultType="BoardDto">
 		select no, title, writer, content, regtime
 		  from boards 
-		 order by no desc
+		 order by no
 	</select>
 	
 	<!-- 게시글 상세 조회 -->
-	<select id="selectBoardByNo" resultType="BoardDto">
+	<select id="search" resultType="BoardDto">
 		select no, title, writer, content, regtime
 		  from boards
 		 where no = #{no}
 	</select>
 
 	<!-- 게시글 등록 -->
-	<insert id="insertBoard" parameterType="BoardDto">
+	<insert id="create" parameterType="BoardDto">
 		insert into boards(
-			title, writer, content
+			title, content
 		) values (
-			#{title}, #{writer}, #{content}
+			#{title}, #{content}
 		)
 	</insert>
 	
 	<!-- 게시글 수정 -->
-	<update id="updateBoard" parameterType="BoardDto">
+	<update id="modify" parameterType="BoardDto">
 		update boards 
 		   set title = #{title}, 
-		   	   writer = #{writer}, 
 		   	   content = #{content}
 		 where no = #{no}
 	</update>
 
 	<!-- 게시글 삭제 -->
-	<delete id="deleteBoard" parameterType="BoardDto">
+	<delete id="delete" parameterType="int">
 		delete 
 		  from boards 
 		 where no = #{no}
