@@ -14,32 +14,32 @@ import com.ssafy.happyhouse.model.mapper.BoardMapper;
 public class BoardServiceImpl implements BoardService {
 	
     @Autowired
-	private SqlSession sqlSession;
+	private BoardMapper boardMapper;
 
     @Override
-	public List<BoardDto> retrieveBoard() {
-		return sqlSession.getMapper(BoardMapper.class).selectBoard();
+	public List<BoardDto> list() {
+		return boardMapper.list();
 	}
     
   	@Override
-	public boolean writeBoard(BoardDto board) {
-  		return sqlSession.getMapper(BoardMapper.class).insertBoard(board)==1;
+	public BoardDto search(int no) {
+  		return boardMapper.search(no);
 	}
 
 	@Override
-	public BoardDto detailBoard(int no) {
-		return sqlSession.getMapper(BoardMapper.class).selectBoardByNo(no);
-	}
-
-	@Override
-	@Transactional
-	public boolean updateBoard(BoardDto board) {
-		return sqlSession.getMapper(BoardMapper.class).updateBoard(board)==1;
+	public boolean create(BoardDto boardDto) {
+		return boardMapper.create(boardDto)==1;
 	}
 
 	@Override
 	@Transactional
-	public boolean deleteBoard(int no) {
-		return sqlSession.getMapper(BoardMapper.class).deleteBoard(no)==1;
+	public boolean modify(BoardDto boardDto) {
+		return boardMapper.modify(boardDto)==1;
+	}
+
+	@Override
+	@Transactional
+	public boolean delete(int no) {
+		return boardMapper.delete(no)==1;
 	}
 }

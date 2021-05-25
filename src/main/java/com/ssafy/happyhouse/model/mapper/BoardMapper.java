@@ -19,9 +19,13 @@ public interface BoardMapper {
 //	public void noticeModify(BoardDto noticeDto) throws SQLException;
 //	public void noticeDelete(int no) throws SQLException;
 	
-	public List<BoardDto> selectBoard();
-	public BoardDto selectBoardByNo(int no);
-	public int insertBoard(BoardDto board);
-	public int updateBoard(BoardDto board);
-	public int deleteBoard(int no);
+	List<BoardDto> list();
+
+	BoardDto search(int no);
+
+	int create(BoardDto boardDto);
+
+	int modify(BoardDto boardDto);
+
+	int delete(int no);
 }
