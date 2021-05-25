@@ -1,6 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happyhouse.model.mapper.BoardMapper">
 
-<mapper namespace="com.ssafy.guestbook.model.mapper.BoardMapper">
+	<!-- 게시글 전체 조회 -->
+	<select id="list" resultType="BoardDto">
+		select no, title, writer, content, regtime
+		  from boards 
+		 order by no
+	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="search" resultType="BoardDto">
+		select no, title, writer, content, regtime
+		  from boards
+		 where no = #{no}
+	</select>
+
+	<!-- 게시글 등록 -->
+	<insert id="create" parameterType="BoardDto">
+		insert into boards(
+			title, content
+		) values (
+			#{title}, #{content}
+		)
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="modify" parameterType="BoardDto">
+		update boards 
+		   set title = #{title}, 
+		   	   content = #{content}
+		 where no = #{no}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete 
+		  from boards 
+		 where no = #{no}
+	</delete>
+
 </mapper>
+
