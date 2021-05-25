@@ -1,5 +1,6 @@
 package com.ssafy.happyhouse.model.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ import com.ssafy.happyhouse.model.dto.MemberDto;
 
 public interface UserService {
 
-	public MemberDto login(Map<String, String> map) throws Exception;
+public Map<String, String> login(Map<String, String> user) throws SQLException;
 	
 //	REST 
 	public List<MemberDto> userList();
