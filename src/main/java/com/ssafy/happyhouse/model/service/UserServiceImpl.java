@@ -1,5 +1,6 @@
 package com.ssafy.happyhouse.model.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +22,10 @@ public class UserServiceImpl implements UserService {
 	private SqlSession sqlSession;
 	
 	@Override
-	public MemberDto login(Map<String, String> map) throws Exception {
-		if(map.get("id") == null || map.get("pw") == null)
+	public Map<String, String> login(Map<String, String> user) throws SQLException {
+		if(user.get("id") == null || user.get("pw") == null)
 			return null;
-		return sqlSession.getMapper(UserMapper.class).login(map);
+		return sqlSession.getMapper(UserMapper.class).login(user);
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import com.ssafy.happyhouse.model.dto.MemberDto;
 @Mapper
 public interface UserMapper {
 
-	public MemberDto login(Map<String, String> map) throws SQLException;
+	public Map<String, String> login(Map<String, String> user) throws SQLException;
 	
 //	REST
 	public List<MemberDto> userList();
