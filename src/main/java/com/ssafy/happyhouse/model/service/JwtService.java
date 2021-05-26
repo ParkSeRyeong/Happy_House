@@ -35,7 +35,7 @@ public class JwtService {
 	 * @param user
 	 * @return
 	 */
-	public String create(final MemberDto user) {
+	public String create(final Map<String, String> user) {
 		logger.debug("JWT token create start");
 
 		// 1. JWT토큰을 만들어줄 빌더를 선언.

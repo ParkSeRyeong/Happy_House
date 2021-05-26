@@ -1,10 +1,13 @@
 package com.ssafy.happyhouse.controller;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,26 +46,32 @@ public class UserController {
 	@GetMapping("/login")
 	public ModelAndView login() {
 		ModelAndView mav = new ModelAndView();
-        mav.setViewName("user/login");
-        return mav;
+		mav.setViewName("user/login");
+		return mav;
 	}
 
 	@ApiOperation(value = "유저 로그인.", response = MemberDto.class)
 	@PostMapping("/login")
-	public ResponseEntity<MemberDto> login(@RequestBody Map<String, String> loginInfo, HttpServletResponse response) {
+	public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> loginInfo,
+			HttpServletResponse response) {
 		logger.debug("login 정보 - " + loginInfo);
 		try {
-			MemberDto user = userService.login(loginInfo);
+			Map<String, String> user = userService.login(loginInfo);
 
 			// 로그인에 성공했다면 토큰을 만듭시당.
-			String token = jwtService.create(user);
+			if (user != null) {
+				logger.debug(user.toString());
+				String token = jwtService.create(user);
+				user.put("token", token);
 
-			// 토큰 정보는 request의 헤더로 보내자
-			response.setHeader("jwt-auth-token", token);
+				// 토큰 정보는 response의 헤더로 보내자
+				response.setHeader("jwt-auth-token", token);
+				return new ResponseEntity<Map<String, String>>(user, HttpStatus.OK);
+			} else {
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
+			}
 
-			return new ResponseEntity<MemberDto>(user, HttpStatus.OK);
-
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
@@ -74,7 +83,7 @@ public class UserController {
 		try {
 			logger.debug("회원가입 : " + memberDto);
 			int n = userService.userRegister(memberDto);
-			
+
 			if (n > 0) {
 				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);
 			} else {
