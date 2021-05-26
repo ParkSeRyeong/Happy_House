@@ -1,23 +1,24 @@
 package com.ssafy.happyhouse.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class QnaController {
-
-
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private JwtService jwtService;
-
-	@ApiOperation(value = "로그인 화면으로 이동")
-	@GetMapping("/login")
-	public ModelAndView login() {
-		ModelAndView mav = new ModelAndView();
-        mav.setViewName("user/login");
-        return mav;
-	}
+//	@Autowired
+//	private UserService userService;
+//
+//	@Autowired
+//	private JwtService jwtService;
+//
+//	@ApiOperation(value = "로그인 화면으로 이동")
+//	@GetMapping("/login")
+//	public ModelAndView login() {
+//		ModelAndView mav = new ModelAndView();
+//        mav.setViewName("user/login");
+//        return mav;
+//	}
 
 //	@ApiOperation(value = "유저 로그인.", response = MemberDto.class)
 //	@PostMapping("/login")
@@ -40,31 +41,31 @@ public class QnaController {
 //		}
 //	}
 
-	@ApiOperation(value = "회원가입", response = MemberDto.class)
-	@PostMapping("/regist")
-	public ResponseEntity<MemberDto> register(@RequestBody MemberDto memberDto) {
-		try {
-			logger.debug("회원가입 : " + memberDto);
-			int n = userService.userRegister(memberDto);
-			
-			if (n > 0) {
-				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);
-			} else {
-				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.NO_CONTENT);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<MemberDto>(memberDto, HttpStatus.NO_CONTENT);
-		}
-	}
-
-	@ApiOperation(value = "로그아웃")
-	@GetMapping("/logout")
-	public ResponseEntity<String> logout(HttpSession session) {
-		logger.debug("로그아웃");
-		// 로그아웃 기능 구현...jwt로...
-		return new ResponseEntity<String>("ok", HttpStatus.OK);
-	}
+//	@ApiOperation(value = "회원가입", response = MemberDto.class)
+//	@PostMapping("/regist")
+//	public ResponseEntity<MemberDto> register(@RequestBody MemberDto memberDto) {
+//		try {
+//			logger.debug("회원가입 : " + memberDto);
+//			int n = userService.userRegister(memberDto);
+//			
+//			if (n > 0) {
+//				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);
+//			} else {
+//				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.NO_CONTENT);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return new ResponseEntity<MemberDto>(memberDto, HttpStatus.NO_CONTENT);
+//		}
+//	}
+//
+//	@ApiOperation(value = "로그아웃")
+//	@GetMapping("/logout")
+//	public ResponseEntity<String> logout(HttpSession session) {
+//		logger.debug("로그아웃");
+//		// 로그아웃 기능 구현...jwt로...
+//		return new ResponseEntity<String>("ok", HttpStatus.OK);
+//	}
 
 }
 
