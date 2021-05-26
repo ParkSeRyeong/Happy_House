@@ -1,35 +1,7 @@
 package com.ssafy.happyhouse.controller;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.ssafy.happyhouse.model.dto.MemberDto;
-import com.ssafy.happyhouse.model.service.JwtService;
-import com.ssafy.happyhouse.model.service.UserService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-@RestController
-@RequestMapping("/qna")
-@Api("QnA Controller API V1")
-@CrossOrigin("*")
 public class QnaController {
+
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -95,3 +67,4 @@ public class QnaController {
 	}
 
 }
+

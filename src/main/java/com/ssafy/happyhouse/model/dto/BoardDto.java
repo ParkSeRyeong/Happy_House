@@ -9,17 +9,20 @@ public class BoardDto {
 	String writer;
 	Date regtime;
 	String content;
+	String write_type;
+	
 	public BoardDto() {
 		super();
 		
 	}
-	public BoardDto(int no, String title, String writer, Date regtime, String content) {
+	public BoardDto(int no, String title, String writer, Date regtime, String content,String write_type) {
 		super();
 		this.no = no;
 		this.title = title;
 		this.writer = writer;
 		this.regtime = regtime;
 		this.content = content;
+		this.write_type = write_type;
 	}
 	public int getNo() {
 		return no;
@@ -50,6 +53,12 @@ public class BoardDto {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getWrite_type() {
+		return write_type;
+	}
+	public void setWrite_type(String write_type) {
+		this.write_type = write_type;
 	}
 	
 	
