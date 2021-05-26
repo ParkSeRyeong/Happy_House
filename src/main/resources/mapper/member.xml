@@ -23,19 +23,19 @@
 	</select> -->
 	
 	<insert id="userRegister" parameterType="MemberDto">
-		insert into users (id, pw, name, address_sido,address_gugun,address_dong,interest_sido,interest_gugun,interest_dong, phone, email)
-		values (#{id}, #{pw}, #{name}, #{address_sido},#{address_gugun},#{address_dong}, #{interest_sido},#{interest_gugun},#{interest_dong},#{phone}, #{email})
+		insert into users (id, pw, name, phone, email, postcode, address, extraAddress)
+		values (#{id}, #{pw}, #{name}, #{phone}, #{email}, #{postcode},#{address}, #{extraAddress})
 	</insert>
 	
-	<!-- <update id="userModify" parameterType="MemberDto">
-		update ssafy_member
-		set userpwd = #{userpwd}, email = #{email}, address = #{address}
-		where userid = #{userid}
-	</update> -->
+	<update id="userModify" parameterType="MemberDto">
+		update users
+		set pw=#{pw},phone=#{phone},email=#{email}, postcode=#{postcode},address=#{address},extraAddress=#{extraAddress}
+		where id = #{id}
+	</update>
 	
-	<!-- <delete id="userDelete" parameterType="String">
+	<delete id="userDelete" parameterType="String">
 		delete from users
 		where id = #{id}
-	</delete> -->
+	</delete>
 	
 </mapper>
