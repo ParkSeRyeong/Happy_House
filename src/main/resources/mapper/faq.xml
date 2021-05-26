@@ -2,13 +2,13 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.happyhouse.model.mapper.BoardMapper">
+<mapper namespace="com.ssafy.happyhouse.model.mapper.FaqMapper">
 
 	<!-- 게시글 전체 조회 -->
 	<select id="list" resultType="BoardDto">
 		select no, title, writer, content, regtime
 		  from boards 
-		  where write_type = 'notice'
+		  where write_type = 'faq'
 		 order by no
 	</select>
 	
@@ -22,9 +22,9 @@
 	<!-- 게시글 등록 -->
 	<insert id="create" parameterType="BoardDto">
 		insert into boards(
-			title, content
+			title, content, write_type
 		) values (
-			#{title}, #{content}
+			#{title}, #{content},#{write_type}
 		)
 	</insert>
 	
