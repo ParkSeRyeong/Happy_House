@@ -19,33 +19,33 @@
 
 - FRONTEND : Vue.js
 
-    ![](D:\싸피\9_관통프로젝트\README\HAPPY HOUSE README md 1bc592602e8a468d8be284b316519891\Untitled 8.png)
+    ![](/resource/Untitled 8.png)
 
 ---
 
 ### 📌 메인화면
 
-![Untitled](HAPPY%20HOUSE%20README%20md%201bc592602e8a468d8be284b316519891/Untitled%202.png)
+![Untitled](/resource/Untitled%202.png)
 
 ### 📌 로그인 / 회원가입
 
-![Untitled](HAPPY%20HOUSE%20README%20md%201bc592602e8a468d8be284b316519891/Untitled%203.png)
+![Untitled](/resource/Untitled%203.png)
 
 ### 📌 마이페이지
 
-![Untitled](HAPPY%20HOUSE%20README%20md%201bc592602e8a468d8be284b316519891/Untitled%204.png)
+![Untitled](/resource/Untitled%204.png)
 
 ### 📌 주택 실거래가 검색 및 제공 화면
 
-![Untitled](HAPPY%20HOUSE%20README%20md%201bc592602e8a468d8be284b316519891/Untitled%205.png)
+![Untitled](/resource/Untitled%205.png)
 
 ### 📌 공지사항
 
-![Untitled](HAPPY%20HOUSE%20README%20md%201bc592602e8a468d8be284b316519891/Untitled%206.png)
+![Untitled](/resource/Untitled%206.png)
 
 ### 📌 FAQ 게시판
 
-![Untitled](HAPPY%20HOUSE%20README%20md%201bc592602e8a468d8be284b316519891/Untitled%207.png)
+![Untitled](/resource/Untitled%207.png)
 
 ---
 
