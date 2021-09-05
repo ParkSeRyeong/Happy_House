@@ -19,7 +19,7 @@
 
 - FRONTEND : Vue.js
 
-    ![](/resource/Untitled 8.png)
+    ![Untitled](/resource/Untitled%208.png)
 
 ---
 
