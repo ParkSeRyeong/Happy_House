@@ -15,7 +15,7 @@
 
 - BACKEND : SpringBoot, MySql
 
-    ![Untitled](HAPPY%20HOUSE%20README%20md%201bc592602e8a468d8be284b316519891/Untitled.png)
+    ![Untitled](/resource/Untitled.png)
 
 - FRONTEND : Vue.js
 
