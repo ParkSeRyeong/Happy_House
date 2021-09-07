@@ -1,5 +1,3 @@
-# HAPPY HOUSE README.md
-
 # **HAPPY HOUSE : 부동산 실거래가 제공 서비스 프로젝트**
 
 ---
